@@ -1,6 +1,5 @@
 package com.aarreaza.montask.config;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -10,6 +9,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
+import java.util.Objects;
 
 @Configuration
 @ComponentScan("com.aarreaza.montask")
@@ -17,15 +17,15 @@ import javax.sql.DataSource;
 public class AppConfig {
 
     @Autowired
-    Environment enviroment;
+    private Environment enviroment;
 
     @Bean
     DataSource dataSource(){
-        DriverManagerDataSource driver = new DriverManagerDataSource();
-        driver.setUrl("url");
-        driver.setDriverClassName("driver");
-        driver.setUsername("user");
-        driver.setPassword("pass");
-        return driver;
+        DriverManagerDataSource driverMDS  = new DriverManagerDataSource();
+        driverMDS.setUrl(enviroment.getProperty("url"));
+        driverMDS.setDriverClassName(Objects.requireNonNull(enviroment.getProperty("driver")));
+        driverMDS.setUsername(enviroment.getProperty("user"));
+        driverMDS.setPassword(enviroment.getProperty("pass"));
+        return driverMDS;
     }
 }
