@@ -4,6 +4,12 @@ import com.aarreaza.montask.model.Account;
 
 public interface AccountDAO {
 
-    boolean create(Account account);
+    enum createResult{
+        SUCCESS,
+        DUPLICATE_KEY,
+        UKNOWN
+    }
+
+    createResult create(Account account);
 
 }
