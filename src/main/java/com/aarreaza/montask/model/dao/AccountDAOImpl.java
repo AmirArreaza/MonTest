@@ -4,6 +4,7 @@ import com.aarreaza.montask.model.Account;
 import com.aarreaza.montask.model.mapper.AccountMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -15,10 +16,14 @@ public class AccountDAOImpl implements AccountDAO {
 
     private JdbcTemplate jdbcTemplate;
 
-    private final String INSERT_ACCOUNT = "insert into account (number, sortcode, currency, balance) " +
-            "                                                  values (?,?,?,?)";
+    private final String INSERT_ACCOUNT =   "insert into account (number, sortcode, currency, balance) " +
+                                            " values (?,?,?,?)";
 
     private final String GET_ALL = "select * from account";
+
+    private final String GET_BY_NUMBER = "select * from account where number = ?";
+
+    private final String UPDATE_BALANCE = "update account set balance = ? where number = ?";
 
     @Autowired
     public AccountDAOImpl(DataSource dataSource){
@@ -26,7 +31,7 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public createResult create(Account account) {
+    public operationResult create(Account account) {
         int rowsAffected;
         try{
             rowsAffected = jdbcTemplate.update(INSERT_ACCOUNT,
@@ -36,12 +41,12 @@ public class AccountDAOImpl implements AccountDAO {
                                     account.getBalance());
 
         }catch(DuplicateKeyException dkex){
-            return createResult.DUPLICATE_KEY;
+            return operationResult.DUPLICATE_KEY;
         }
         if(rowsAffected == 1){
-            return createResult.SUCCESS;
+            return operationResult.SUCCESS;
         }else{
-            return createResult.UKNOWN;
+            return operationResult.UKNOWN;
         }
     }
 
@@ -49,4 +54,32 @@ public class AccountDAOImpl implements AccountDAO {
     public List<Account> getAccounts() {
         return jdbcTemplate.query(GET_ALL, new AccountMapper());
     }
+
+    @Override
+    public Account getAccount(int number) {
+        try{
+            return jdbcTemplate.queryForObject(GET_BY_NUMBER, new Object[] { number }, new AccountMapper());
+        }catch(EmptyResultDataAccessException erdex){
+            return null;
+        }
+    }
+
+    @Override
+    public operationResult update(Account account) {
+        int rowsAffected;
+        try{
+            rowsAffected = jdbcTemplate.update(UPDATE_BALANCE,
+                            account.getBalance(),
+                            account.getNumber());
+
+        }catch(Exception ex){
+            return operationResult.UKNOWN;
+        }
+        if(rowsAffected == 1){
+            return operationResult.SUCCESS;
+        }else{
+            return operationResult.ERROR;
+        }
+    }
+
 }

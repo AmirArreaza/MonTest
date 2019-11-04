@@ -6,14 +6,19 @@ import java.util.List;
 
 public interface AccountDAO {
 
-    enum createResult{
+    enum operationResult {
         SUCCESS,
         DUPLICATE_KEY,
-        UKNOWN
+        UKNOWN,
+        ERROR
     }
 
-    createResult create(Account account);
+    operationResult create(Account account);
 
     List<Account> getAccounts();
+
+    Account getAccount(int number);
+
+    operationResult update(Account account);
 
 }

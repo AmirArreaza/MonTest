@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.math.BigDecimal;
-import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Random;
 
@@ -36,14 +35,14 @@ public class AccountTests {
         newAccount.setBalance(new BigDecimal(0));
         newAccount.setCurrency("GBP");
 
-        Assert.assertEquals(AccountDAO.createResult.SUCCESS, accountDAO.create(newAccount));
+        Assert.assertEquals(AccountDAO.operationResult.SUCCESS, accountDAO.create(newAccount));
 
         Account accountInDB = new Account(123456);
         newAccount.setSortCode("00-00-00");
         newAccount.setBalance(new BigDecimal(0));
         newAccount.setCurrency("GBP");
 
-        Assert.assertEquals(AccountDAO.createResult.DUPLICATE_KEY, accountDAO.create(newAccount));
+        Assert.assertEquals(AccountDAO.operationResult.DUPLICATE_KEY, accountDAO.create(newAccount));
     }
 
     @Test
@@ -58,8 +57,23 @@ public class AccountTests {
         }
     }
 
+    @Test
+    public void findAccount(){
+        Assert.assertEquals(123456, accountDAO.getAccount(123456).getNumber());
+        Assert.assertNull(accountDAO.getAccount(12345));
+    }
+
+    @Test
+    public void addBalance(){
+        int account = 123456;
 
 
+    }
 
+    @Test
+    public void takeBalance(){
+
+
+    }
 
 }
