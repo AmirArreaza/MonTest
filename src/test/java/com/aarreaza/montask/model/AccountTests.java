@@ -45,7 +45,7 @@ public class AccountTests {
 
     @Test
     public void listAllAccounts(){
-        List<Account> accounts = accountDAO.getAccounts();
+        List<Account> accounts = accountDAO.getAll();
         Assert.assertTrue(accounts.size() > 0);
         for(Account acc : accounts){
             System.out.println("Account number: " + acc.toString());
@@ -54,13 +54,13 @@ public class AccountTests {
 
     @Test
     public void findAccount(){
-        Assert.assertEquals(123456, accountDAO.getAccount(123456).getNumber());
-        Assert.assertNull(accountDAO.getAccount(12345));
+        Assert.assertEquals(123456, accountDAO.getById(123456).getNumber());
+        Assert.assertNull(accountDAO.getById(12345));
     }
 
     @Test
     public void addBalance(){
-        Account account = accountDAO.getAccount(123456);
+        Account account = accountDAO.getById(123456);
 
         BigDecimal currentBalance = account.getBalance();
         double addedValue = 20;
@@ -73,7 +73,7 @@ public class AccountTests {
 
     @Test
     public void takeBalance(){
-        Account account = accountDAO.getAccount(123456);
+        Account account = accountDAO.getById(123456);
 
         BigDecimal currentBalance = account.getBalance();
         double addedValue = 10;

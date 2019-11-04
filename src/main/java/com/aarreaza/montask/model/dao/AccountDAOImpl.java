@@ -7,6 +7,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -51,17 +52,22 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public List<Account> getAccounts() {
+    public List<Account> getAll() {
         return jdbcTemplate.query(GET_ALL, new AccountMapper());
     }
 
     @Override
-    public Account getAccount(int number) {
+    public Account getById(int number) {
         try{
             return jdbcTemplate.queryForObject(GET_BY_NUMBER, new Object[] { number }, new AccountMapper());
         }catch(EmptyResultDataAccessException erdex){
             return null;
         }
+    }
+
+    @Override
+    public operationResult update(Account object) {
+        throw new NotImplementedException();
     }
 
     @Override
