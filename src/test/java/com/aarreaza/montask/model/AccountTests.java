@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.math.BigDecimal;
+import java.sql.SQLOutput;
+import java.util.List;
 import java.util.Random;
 
 public class AccountTests {
@@ -44,6 +46,17 @@ public class AccountTests {
         Assert.assertEquals(AccountDAO.createResult.DUPLICATE_KEY, accountDAO.create(newAccount));
     }
 
+    @Test
+    public void listAllAccounts(){
+
+        List<Account> accounts = accountDAO.getAccounts();
+
+        Assert.assertTrue(accounts.size() > 0);
+
+        for(Account acc : accounts){
+            System.out.println("Account number: " + acc.toString());
+        }
+    }
 
 
 

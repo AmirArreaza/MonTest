@@ -59,4 +59,11 @@ public class Account {
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
+
+    @Override
+    public String toString(){
+        return "Account Number " + this.number + " " +
+                " Sort Code " + this.getSortCode() +
+                " Current Balance = " + this.getBalance();
+    }
 }

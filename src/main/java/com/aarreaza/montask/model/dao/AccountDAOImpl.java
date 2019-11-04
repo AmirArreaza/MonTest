@@ -1,12 +1,14 @@
 package com.aarreaza.montask.model.dao;
 
 import com.aarreaza.montask.model.Account;
+import com.aarreaza.montask.model.mapper.AccountMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 @Component
 public class AccountDAOImpl implements AccountDAO {
@@ -15,6 +17,8 @@ public class AccountDAOImpl implements AccountDAO {
 
     private final String INSERT_ACCOUNT = "insert into account (number, sortcode, currency, balance) " +
             "                                                  values (?,?,?,?)";
+
+    private final String GET_ALL = "select * from account";
 
     @Autowired
     public AccountDAOImpl(DataSource dataSource){
@@ -39,5 +43,10 @@ public class AccountDAOImpl implements AccountDAO {
         }else{
             return createResult.UKNOWN;
         }
+    }
+
+    @Override
+    public List<Account> getAccounts() {
+        return jdbcTemplate.query(GET_ALL, new AccountMapper());
     }
 }
