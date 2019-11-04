@@ -19,6 +19,6 @@ public interface AccountDAO {
 
     Account getAccount(int number);
 
-    operationResult update(Account account);
+    operationResult updateBalance(Account account);
 
 }

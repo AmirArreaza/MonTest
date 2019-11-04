@@ -10,7 +10,7 @@ public class Account {
 
     private String currency;
 
-    private BigDecimal balance;
+    private BigDecimal balance = new BigDecimal(0);
 
     public Account(int number){
         this.number = number;
@@ -21,10 +21,6 @@ public class Account {
      */
     public int getNumber() {
         return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
     }
 
     /**
@@ -56,8 +52,20 @@ public class Account {
         return balance;
     }
 
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
+    /**
+     *
+     * @param amount to add to the balance
+     */
+    public void addBalance(double amount) {
+        this.balance = this.balance.add(BigDecimal.valueOf(amount).setScale(2,BigDecimal.ROUND_HALF_EVEN));
+    }
+
+    /**
+     *
+     * @param amount to deduct from the balance
+     */
+    public void deductBalance(double amount) {
+        this.balance = this.balance.add(BigDecimal.valueOf((-1) * amount).setScale(2,BigDecimal.ROUND_HALF_EVEN));
     }
 
     @Override

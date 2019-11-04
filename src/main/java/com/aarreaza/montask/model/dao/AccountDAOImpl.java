@@ -65,7 +65,7 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public operationResult update(Account account) {
+    public operationResult updateBalance(Account account) {
         int rowsAffected;
         try{
             rowsAffected = jdbcTemplate.update(UPDATE_BALANCE,

@@ -21,8 +21,6 @@ public class AccountTests {
     public void configTest(){
          this.context = new AnnotationConfigApplicationContext(AppConfig.class);
          this.accountDAO = context.getBean(AccountDAO.class);
-
-
     }
 
     @Test
@@ -32,14 +30,14 @@ public class AccountTests {
 
         Account newAccount = new Account(num);
         newAccount.setSortCode("00-00-00");
-        newAccount.setBalance(new BigDecimal(0));
+        newAccount.addBalance(0);
         newAccount.setCurrency("GBP");
 
         Assert.assertEquals(AccountDAO.operationResult.SUCCESS, accountDAO.create(newAccount));
 
         Account accountInDB = new Account(123456);
         newAccount.setSortCode("00-00-00");
-        newAccount.setBalance(new BigDecimal(0));
+        newAccount.addBalance(0);
         newAccount.setCurrency("GBP");
 
         Assert.assertEquals(AccountDAO.operationResult.DUPLICATE_KEY, accountDAO.create(newAccount));
@@ -47,11 +45,8 @@ public class AccountTests {
 
     @Test
     public void listAllAccounts(){
-
         List<Account> accounts = accountDAO.getAccounts();
-
         Assert.assertTrue(accounts.size() > 0);
-
         for(Account acc : accounts){
             System.out.println("Account number: " + acc.toString());
         }
@@ -65,15 +60,28 @@ public class AccountTests {
 
     @Test
     public void addBalance(){
-        int account = 123456;
+        Account account = accountDAO.getAccount(123456);
 
+        BigDecimal currentBalance = account.getBalance();
+        double addedValue = 20;
 
+        account.addBalance(addedValue);
+        currentBalance = currentBalance.add(new BigDecimal(addedValue));
+        Assert.assertEquals(currentBalance, account.getBalance());
+        Assert.assertEquals(AccountDAO.operationResult.SUCCESS, accountDAO.updateBalance(account));
     }
 
     @Test
     public void takeBalance(){
+        Account account = accountDAO.getAccount(123456);
 
+        BigDecimal currentBalance = account.getBalance();
+        double addedValue = 10;
 
+        account.deductBalance(addedValue);
+        currentBalance = currentBalance.subtract(new BigDecimal(addedValue));
+        Assert.assertEquals(currentBalance, account.getBalance());
+        Assert.assertEquals(AccountDAO.operationResult.SUCCESS, accountDAO.updateBalance(account));
     }
 
 }
