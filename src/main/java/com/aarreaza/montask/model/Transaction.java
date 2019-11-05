@@ -29,6 +29,10 @@ public class Transaction {
         this.id = UUID.randomUUID();
     }
 
+    public Transaction(UUID id){
+        this.id = id;
+    }
+
     public UUID getId() {
         return id;
     }

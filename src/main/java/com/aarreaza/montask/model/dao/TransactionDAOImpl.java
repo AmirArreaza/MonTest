@@ -1,14 +1,14 @@
 package com.aarreaza.montask.model.dao;
 
 import com.aarreaza.montask.model.Transaction;
+import com.aarreaza.montask.model.mapper.TransactionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -19,6 +19,7 @@ public class TransactionDAOImpl implements TransactionDAO {
     private final String INSERT_TRANSACTION =   "insert into transaction (id, origin, destination, amount, result, date) " +
                                             " values (?,?,?,?,?,?)";
 
+    private final String GET_BY_ACCOUNT = "select * from transaction where origin = ?";
 
     @Autowired
     public TransactionDAOImpl(DataSource dataSource) {
@@ -55,6 +56,14 @@ public class TransactionDAOImpl implements TransactionDAO {
     @Override
     public Transaction getById(int number) {
         return null;
+    }
+
+    public List<Transaction> getByAccount(int origin){
+        try{
+            return jdbcTemplate.query(GET_BY_ACCOUNT, new Object[] { origin }, new TransactionMapper());
+        }catch(EmptyResultDataAccessException erdex){
+            return null;
+        }
     }
 
     @Override
