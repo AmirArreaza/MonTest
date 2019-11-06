@@ -22,21 +22,22 @@ public class AccountController {
 
     public Statement getAccountStatement(int accountNumber){
         Account account = accountDAO.getById(accountNumber);
-        List<Transaction> unsortedTransactions = transactionDAO.getByAccount(account.getNumber());
-        PriorityQueue<Transaction> transactions = new PriorityQueue<>(new TransactionComparator());
 
-        transactions.addAll(unsortedTransactions);
+        PriorityQueue<Transaction> transactions = new PriorityQueue<>(new TransactionComparator());
+        transactions.addAll(transactionDAO.getByAccount(account.getNumber()));
+
         return new Statement(account, transactions);
     }
 
     public PriorityQueue<Account> getAllAccounts(){
         PriorityQueue<Account> accounts = new PriorityQueue<>(new AccountComparator());
-        List<Account> unsortedAccounts = accountDAO.getAll();
-
-        accounts.addAll(unsortedAccounts);
+        accounts.addAll(accountDAO.getAll());
         return accounts;
     }
 
+    public Account getByNumber(int number) {
+        return accountDAO.getById(number);
+    }
 }
 
 class AccountComparator implements Comparator<Account>{
