@@ -2,6 +2,7 @@ package com.aarreaza.montask.model;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.UUID;
 
 public class Transaction {
@@ -10,7 +11,9 @@ public class Transaction {
         SUCCESS,
         INCOMPLETE,
         NOT_ENOUGH_FUNDS,
-        UNKNOWN
+        UNKNOWN,
+        FAILED,
+        MISSING_ACCOUNT
     }
 
     private UUID id;
@@ -19,7 +22,7 @@ public class Transaction {
 
     private Account destination;
 
-    private int amount;
+    private double amount;
 
     private TxnResult result;
 
@@ -53,11 +56,11 @@ public class Transaction {
         this.destination = destination;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -71,6 +74,11 @@ public class Transaction {
 
     public Timestamp getTimestamp() {
         return timestamp;
+    }
+
+    public void setTimestamp() {
+        Date d = new Date();
+        this.timestamp = new Timestamp(d.getTime());
     }
 
     public void setTimestamp(Timestamp timestamp) {
