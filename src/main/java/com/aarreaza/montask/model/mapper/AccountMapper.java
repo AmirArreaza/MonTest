@@ -13,7 +13,7 @@ public class AccountMapper implements RowMapper<Account> {
         Account account = new Account(resultSet.getInt("number"));
         account.setCurrency(resultSet.getString("currency"));
         account.setSortCode(resultSet.getString("sortcode"));
-        account.addBalance(resultSet.getInt("balance"));
+        account.addBalance(resultSet.getDouble("balance"));
         return account;
     }
 }
