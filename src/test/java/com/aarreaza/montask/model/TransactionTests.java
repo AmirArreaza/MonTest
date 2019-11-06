@@ -30,14 +30,11 @@ public class TransactionTests {
         Account origin = accountDAO.getById(123456);
         Account dest = accountDAO.getById(193990);
 
-        Date d = new Date();
-        Timestamp t = new Timestamp(d.getTime());
-
         Transaction transaction = new Transaction();
-        transaction.setAmount(50);
+        transaction.setAmount(50.5);
         transaction.setDestination(dest);
         transaction.setOrigin(origin);
-        transaction.setTimestamp(t);
+        transaction.setTimestamp();
         transaction.setResult(Transaction.TxnResult.SUCCESS);
         Assert.assertEquals(GenericDAO.operationResult.SUCCESS, transactionDAO.create(transaction));
     }
