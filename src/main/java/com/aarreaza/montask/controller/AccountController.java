@@ -37,7 +37,7 @@ public class AccountController {
         TreeSet<Account> sortedAccounts = new TreeSet<>(new AccountComparator());
         List<Account> accounts = accountDAO.getAll();
 
-        accounts.addAll(sortedAccounts);
+        sortedAccounts.addAll(accounts);
 
         return sortedAccounts;
     }
