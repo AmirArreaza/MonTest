@@ -5,12 +5,12 @@ import com.aarreaza.montask.model.Statement;
 import com.aarreaza.montask.model.Transaction;
 import com.aarreaza.montask.model.dao.AccountDAO;
 import com.aarreaza.montask.model.dao.TransactionDAO;
+import com.aarreaza.montask.model.dao.comparator.AccountComparator;
+import com.aarreaza.montask.model.dao.comparator.TransactionComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 @Component
 public class AccountController {
@@ -22,17 +22,24 @@ public class AccountController {
 
     public Statement getAccountStatement(int accountNumber){
         Account account = accountDAO.getById(accountNumber);
+        if(account == null){
+            return null;
+        }
+        TreeSet<Transaction> sortedTransactions = new TreeSet<>(new TransactionComparator());
 
-        PriorityQueue<Transaction> transactions = new PriorityQueue<>(new TransactionComparator());
-        transactions.addAll(transactionDAO.getByAccount(account.getNumber()));
+        List<Transaction> transactions = transactionDAO.getByAccount(account.getNumber());
+        transactions.addAll(sortedTransactions);
 
-        return new Statement(account, transactions);
+        return new Statement(account, new ArrayList<>(sortedTransactions));
     }
 
-    public PriorityQueue<Account> getAllAccounts(){
-        PriorityQueue<Account> accounts = new PriorityQueue<>(new AccountComparator());
-        accounts.addAll(accountDAO.getAll());
-        return accounts;
+    public TreeSet<Account> getAllAccounts(){
+        TreeSet<Account> sortedAccounts = new TreeSet<>(new AccountComparator());
+        List<Account> accounts = accountDAO.getAll();
+
+        accounts.addAll(sortedAccounts);
+
+        return sortedAccounts;
     }
 
     public Account getByNumber(int number) {
@@ -40,24 +47,5 @@ public class AccountController {
     }
 }
 
-class AccountComparator implements Comparator<Account>{
 
-    @Override
-    public int compare(Account o1, Account o2) {
-        if(o1.getNumber() > o2.getNumber()){
-            return 1;
-        }else if (o1.getNumber() == o2.getNumber()){
-            return 0;
-        }else{
-            return -1;
-        }
-    }
-}
 
-class TransactionComparator implements Comparator<Transaction>{
-
-    @Override
-    public int compare(Transaction o1, Transaction o2) {
-        return o1.getTimestamp().compareTo(o2.getTimestamp());
-    }
-}
