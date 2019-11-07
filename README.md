@@ -1,6 +1,6 @@
 # MonTest
 
-Test assignment whose purpose is to create a sandbox Java banking application that can be used for::
+Test assignment whose purpose is to create a sandbox Java banking application that can be used for:
 
     ● Sending money between two predefined accounts with a positive starting balance
     ● Requesting account balance and list of transactions
@@ -19,11 +19,17 @@ This system uses a relational PostgreSQL database hosted in my Heroku server wit
 ### Database
 
 Host - ec2-54-243-203-179.compute-1.amazonaws.com
+
 Database - d92pjrvcc5nvff
+
 User - nrqnpozxicaiez
+
 Port - 5432
+
 Password - RoMm-XhDF-ig-2zXJdDoislBQl
+
 URI - postgres://nrqnpozxicaiez:RoMm-XhDF-ig-2zXJdDoislBQl@ec2-54-243-203-179.compute-1.amazonaws.com:5432/d92pjrvcc5nvff
+
 Heroku CLI - heroku pg:psql flying-fairly-4151 --app demo-appamir
 
 ### Repository Contents
