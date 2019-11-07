@@ -66,7 +66,7 @@ public class ControllerTests {
 
     @Test
     public void sendMoneyNotEnoughFunds(){
-        double amount = 10000;
+        double amount = 1000000;
         int acc1 = 949751;
         int acc2 = 123456;
 
