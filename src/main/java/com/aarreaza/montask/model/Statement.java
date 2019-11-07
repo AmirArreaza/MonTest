@@ -7,9 +7,9 @@ public class Statement {
 
     private Account account;
 
-    private PriorityQueue<Transaction> transactions;
+    private List<Transaction> transactions;
 
-    public Statement(Account account, PriorityQueue<Transaction> transactions){
+    public Statement(Account account, List<Transaction> transactions){
         this.account = account;
         this.transactions = transactions;
     }
@@ -18,7 +18,7 @@ public class Statement {
         return account;
     }
 
-    public PriorityQueue<Transaction> getTransactions() {
+    public List<Transaction> getTransactions() {
         return transactions;
     }
 
@@ -28,8 +28,8 @@ public class Statement {
         String transactions = "";
 
         for(Transaction txn : this.transactions){
-            transactions += txn.getId() + " " + txn.getTimestamp() + " To:" + txn.getDestination().getNumber() + " "
-                     + txn.getAmount() + "£\n" ;
+            transactions = transactions.concat(txn.getId() + " " + txn.getTimestamp() + " To:" + txn.getDestination().getNumber() + " "
+                     + txn.getAmount() + "£\n");
         }
         return "Account " + this.account.getNumber() + " Current Balance " + this.account.getBalance() + "£\n"
                 + transactions;
