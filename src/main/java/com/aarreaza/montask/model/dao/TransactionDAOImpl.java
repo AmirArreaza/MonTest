@@ -21,11 +21,18 @@ public class TransactionDAOImpl implements TransactionDAO {
 
     private final String GET_BY_ACCOUNT = "select * from transaction where origin = ?";
 
+    /**
+     * @param dataSource
+     */
     @Autowired
     public TransactionDAOImpl(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+    /**
+     * @param transaction
+     * @return
+     */
     @Override
     public operationResult create(Transaction transaction) {
         int rowsAffected;
@@ -48,16 +55,27 @@ public class TransactionDAOImpl implements TransactionDAO {
         }
     }
 
+    /**
+     * @return
+     */
     @Override
     public List<Transaction> getAll() {
         return null;
     }
 
+    /**
+     * @param number
+     * @return
+     */
     @Override
     public Transaction getById(int number) {
         return null;
     }
 
+    /**
+     * @param origin
+     * @return
+     */
     public List<Transaction> getByAccount(int origin){
         try{
             return jdbcTemplate.query(GET_BY_ACCOUNT, new Object[] { origin }, new TransactionMapper());
@@ -66,6 +84,10 @@ public class TransactionDAOImpl implements TransactionDAO {
         }
     }
 
+    /**
+     * @param object
+     * @return
+     */
     @Override
     public operationResult update(Transaction object) {
         return null;

@@ -18,6 +18,7 @@ public class Account {
 
     /**
      * Number of the account
+     * @return
      */
     public int getNumber() {
         return number;
@@ -25,17 +26,22 @@ public class Account {
 
     /**
      * Bank sort code
+     * @return
      */
     public String getSortCode() {
         return sortCode;
     }
 
+    /**
+     * @param sortCode
+     */
     public void setSortCode(String sortCode) {
         this.sortCode = sortCode;
     }
 
     /**
      * Account currency
+     * @return
      */
     public String getCurrency() {
         return currency;
@@ -47,6 +53,7 @@ public class Account {
 
     /**
      * Money balance in the account
+     * @return
      */
     public BigDecimal getBalance() {
         return balance;
@@ -68,6 +75,9 @@ public class Account {
         this.balance = this.balance.add(BigDecimal.valueOf((-1) * amount).setScale(2,BigDecimal.ROUND_HALF_EVEN));
     }
 
+    /**
+     * @return
+     */
     @Override
     public String toString(){
         return "Account Number " + this.number + " " +

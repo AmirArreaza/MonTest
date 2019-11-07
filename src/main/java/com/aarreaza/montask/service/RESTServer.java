@@ -43,6 +43,9 @@ public class RESTServer implements Runnable {
         loadServices();
     }
 
+    /**
+     *
+     */
     private void loadServices(){
         get("/hello", (req, res) -> "Hello");
         get("/Accounts", (req, res) -> getAllAccountsService(req,res));
@@ -50,6 +53,11 @@ public class RESTServer implements Runnable {
         post("/Accounts/:amount/:origin/:dest", (req, res) -> createTransaction(req, res));
     }
 
+    /**
+     * @param req
+     * @param res
+     * @return
+     */
     private String getAllAccountsService(Request req, Response res) {
         TreeSet<Account> accounts;
         try{
@@ -64,6 +72,11 @@ public class RESTServer implements Runnable {
         }
     }
 
+    /**
+     * @param req
+     * @param res
+     * @return
+     */
     private String getStatementService(Request req, Response res) {
         Statement statement;
         try{
@@ -83,6 +96,11 @@ public class RESTServer implements Runnable {
         }
     }
 
+    /**
+     * @param req
+     * @param res
+     * @return
+     */
     private String createTransaction(Request req, Response res) {
         try{
             double amount = Double.parseDouble(req.params("amount"));

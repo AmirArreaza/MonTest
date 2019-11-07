@@ -9,6 +9,12 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 public class TransactionMapper implements RowMapper<Transaction> {
+    /**
+     * @param resultSet
+     * @param i
+     * @return
+     * @throws SQLException
+     */
     @Override
     public Transaction mapRow(ResultSet resultSet, int i) throws SQLException {
         UUID id = UUID.fromString(resultSet.getString("id"));

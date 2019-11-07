@@ -26,11 +26,18 @@ public class AccountDAOImpl implements AccountDAO {
 
     private final String UPDATE_BALANCE = "update account set balance = ? where number = ?";
 
+    /**
+     * @param dataSource
+     */
     @Autowired
     public AccountDAOImpl(DataSource dataSource){
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+    /**
+     * @param account
+     * @return
+     */
     @Override
     public operationResult create(Account account) {
         int rowsAffected;
@@ -51,11 +58,18 @@ public class AccountDAOImpl implements AccountDAO {
         }
     }
 
+    /**
+     * @return
+     */
     @Override
     public List<Account> getAll() {
         return jdbcTemplate.query(GET_ALL, new AccountMapper());
     }
 
+    /**
+     * @param number
+     * @return
+     */
     @Override
     public Account getById(int number) {
         try{
@@ -65,11 +79,19 @@ public class AccountDAOImpl implements AccountDAO {
         }
     }
 
+    /**
+     * @param object
+     * @return
+     */
     @Override
     public operationResult update(Account object) {
         throw new NotImplementedException();
     }
 
+    /**
+     * @param account
+     * @return
+     */
     @Override
     public operationResult updateBalance(Account account) {
         int rowsAffected;

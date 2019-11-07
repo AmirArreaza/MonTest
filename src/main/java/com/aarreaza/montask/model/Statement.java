@@ -1,7 +1,6 @@
 package com.aarreaza.montask.model;
 
 import java.util.List;
-import java.util.PriorityQueue;
 
 public class Statement {
 
@@ -9,19 +8,32 @@ public class Statement {
 
     private List<Transaction> transactions;
 
+    /**
+     * @param account
+     * @param transactions
+     */
     public Statement(Account account, List<Transaction> transactions){
         this.account = account;
         this.transactions = transactions;
     }
 
+    /**
+     * @return
+     */
     public Account getAccount() {
         return account;
     }
 
+    /**
+     * @return
+     */
     public List<Transaction> getTransactions() {
         return transactions;
     }
 
+    /**
+     * @return
+     */
     @Override
     public String toString(){
 
