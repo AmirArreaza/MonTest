@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.PriorityQueue;
+import java.util.TreeSet;
 import java.util.stream.IntStream;
 
 public class ControllerTests {
@@ -26,10 +27,10 @@ public class ControllerTests {
 
     @Test
     public void displayAccounts(){
-        PriorityQueue<Account> accounts = accountController.getAllAccounts();
+        TreeSet<Account> accounts = accountController.getAllAccounts();
         Assert.assertTrue(accounts.size() > 0);
         while(!accounts.isEmpty()){
-            System.out.println(accounts.poll());
+            System.out.println(accounts.pollFirst());
         }
     }
 
