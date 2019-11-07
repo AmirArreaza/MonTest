@@ -14,7 +14,7 @@ The solution exposes three REST web services:
     3.- To send money between accounts 'POST' 
     http://localhost:4567/Accounts/:Amount/:AccountNumberOrigin/:AccountNumberDestination
     
-This system using a relation database hosted in a Heroku PostgreSQL service with the following data:
+This system using a relational PostgreSQL database hosted in my Heroku server with the following connection data:
 
 ## Database
 
