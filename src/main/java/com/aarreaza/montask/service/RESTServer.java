@@ -2,21 +2,19 @@ package com.aarreaza.montask.service;
 
 import com.aarreaza.montask.config.AppConfig;
 import com.aarreaza.montask.controller.AccountController;
+import com.aarreaza.montask.controller.TransactionController;
 import com.aarreaza.montask.model.Account;
 import com.aarreaza.montask.model.Statement;
-import com.aarreaza.montask.model.dao.comparator.AccountComparator;
+import com.aarreaza.montask.model.Transaction;
 import com.google.gson.Gson;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
 import spark.Request;
 import spark.Response;
 
-
-import java.util.PriorityQueue;
 import java.util.TreeSet;
 
-import static spark.Spark.get;
-import static spark.Spark.init;
+import static spark.Spark.*;
 
 @Service
 public class RESTServer implements Runnable {
@@ -24,6 +22,7 @@ public class RESTServer implements Runnable {
     private AnnotationConfigApplicationContext context;
 
     private AccountController accountController;
+    private TransactionController transactionController;
 
     /**
      * When an object implementing interface <code>Runnable</code> is used
@@ -39,14 +38,30 @@ public class RESTServer implements Runnable {
     public void run() {
         this.context = new AnnotationConfigApplicationContext(AppConfig.class);
         this.accountController = context.getBean(AccountController.class);
+        this.transactionController = context.getBean(TransactionController.class);
         init();
         loadServices();
     }
 
     private void loadServices(){
         get("/hello", (req, res) -> "Hello");
-        get("/Accounts", (req, res) -> getAccountsService(req,res));
+        get("/Accounts", (req, res) -> getAllAccountsService(req,res));
         get("/Accounts/:number", (req, res) -> getStatementService(req,res));
+        post("/Accounts/:amount/:origin/:dest", (req, res) -> createTransaction(req, res));
+    }
+
+    private String getAllAccountsService(Request req, Response res) {
+        TreeSet<Account> accounts;
+        try{
+            accounts = accountController.getAllAccounts();
+            if(accounts.size() < 1){
+                res.status(204);
+            }
+            return new Gson().toJson(accounts);
+        }catch (Exception ex){
+            res.status(500);
+            return new Gson().toJson("");
+        }
     }
 
     private String getStatementService(Request req, Response res) {
@@ -68,19 +83,22 @@ public class RESTServer implements Runnable {
         }
     }
 
-    private String getAccountsService(Request req, Response res) {
-        TreeSet<Account> accounts;
+    private String createTransaction(Request req, Response res) {
         try{
-            accounts = accountController.getAllAccounts();
-            if(accounts.size() < 1){
-                res.status(204);
-            }
-            return new Gson().toJson(accounts);
+            double amount = Double.parseDouble(req.params("amount"));
+            int origin = Integer.parseInt(req.params("origin"));
+            int destination = Integer.parseInt(req.params("dest"));
+            Transaction.TxnResult result = transactionController.sendMoney(amount, origin, destination);
+
+            res.status(200);
+            return result.toString();
+        }catch (NumberFormatException numex){
+            res.status(400);
+            return Transaction.TxnResult.BAD_PARAMETERS.toString();
         }catch (Exception ex){
             res.status(500);
-            return new Gson().toJson("");
+            return Transaction.TxnResult.UNKNOWN.toString();
         }
     }
-
 
 }
