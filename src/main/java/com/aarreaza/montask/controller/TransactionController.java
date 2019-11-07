@@ -7,10 +7,8 @@ import com.aarreaza.montask.model.dao.GenericDAO;
 import com.aarreaza.montask.model.dao.TransactionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 
 @Component
 public class TransactionController {
