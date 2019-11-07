@@ -28,7 +28,7 @@ public class AccountController {
         TreeSet<Transaction> sortedTransactions = new TreeSet<>(new TransactionComparator());
 
         List<Transaction> transactions = transactionDAO.getByAccount(account.getNumber());
-        transactions.addAll(sortedTransactions);
+        sortedTransactions.addAll(transactions);
 
         return new Statement(account, new ArrayList<>(sortedTransactions));
     }
