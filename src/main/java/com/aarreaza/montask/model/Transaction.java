@@ -13,7 +13,8 @@ public class Transaction {
         NOT_ENOUGH_FUNDS,
         UNKNOWN,
         FAILED,
-        MISSING_ACCOUNT
+        MISSING_ACCOUNT,
+        BAD_PARAMETERS
     }
 
     private UUID id;
