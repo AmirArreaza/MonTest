@@ -5,9 +5,6 @@ import com.aarreaza.montask.service.RESTServer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import spark.utils.IOUtils;
 
 import java.io.IOException;
